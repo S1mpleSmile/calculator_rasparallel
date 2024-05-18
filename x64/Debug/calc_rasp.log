@@ -1,0 +1,8 @@
+﻿  BigInt.cpp
+C:\Users\Viktor\source\repos\calc_rasp\calc_rasp\BigInt.cpp(226,26): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\Viktor\source\repos\calc_rasp\calc_rasp\BigInt.cpp(268,15): warning C4804: -: небезопасное использование типа "bool" в операции
+  calc_rasp.cpp
+C:\Users\Viktor\source\repos\calc_rasp\calc_rasp\calc_rasp.cpp(50,34): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\Viktor\source\repos\calc_rasp\calc_rasp\calc_rasp.cpp(56,12): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+  Создание кода...
+  calc_rasp.vcxproj -> C:\Users\Viktor\source\repos\calc_rasp\x64\Debug\calc_rasp.exe
