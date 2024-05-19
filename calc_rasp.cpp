@@ -69,7 +69,7 @@ int main()
 
     while (getline(cin, s))
     {
-        pos = contains(s, "+-*/%^");
+        pos = contains(s, "+-*:%^");
 
         if (pos != -1)
         {
