@@ -1,12 +1,21 @@
-﻿#include <iostream>
+#include <iostream>
 #include <stdlib.h>
 #include <string>
+#include <sstream>
 #include <cstring>
 #include "Ratio2.h"
 
 #pragma warning(disable : 4996)
 
 using namespace std;
+
+Ratio stor(string const& str)
+{
+    Ratio a;
+    std::istringstream is(str, ios_base::in);
+    is >> a;
+    return a;
+}
 
 class Operand
 {
@@ -74,14 +83,14 @@ int main()
         if (pos != -1)
         {
             if (pos != 0)
-                x = Ratio(stoi(s.substr(0, pos)));
+                x = stor(s.substr(0, pos));
             else
                 x = c.get();
 
             string temp = s.substr(pos, 1);
             strcpy(opr, temp.c_str());
 
-            y = Ratio(stoi(s.substr(pos + 1)));
+            y = stor(s.substr(pos + 1));
 
             a.set(x);
             b.set(y);
@@ -101,7 +110,7 @@ int main()
             x = Ratio(0); y = Ratio(0); c.set(Ratio(0));
 
             system("cls");   //for windows
-            system("clear"); //for linux
+            //system("clear"); //for linux
 
         }
     };
