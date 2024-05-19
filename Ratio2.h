@@ -8,7 +8,6 @@
 
 using namespace std;
 
-
 BigInt gcf(BigInt a, BigInt b) {
     a = a.abs();
     b = b.abs();
