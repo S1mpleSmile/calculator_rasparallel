@@ -4,30 +4,30 @@
 #include <string>
 
 class BigInt {
-	std::string value; // значение числа
-	bool isNeg; // флаг отрицательности
+	std::string value; // Р·РЅР°С‡РµРЅРёРµ С‡РёСЃР»Р°
+	bool isNeg; // С„Р»Р°Рі РѕС‚СЂРёС†Р°С‚РµР»СЊРЅРѕСЃС‚Рё
 
-	static BigInt karatsuba_mul(const BigInt& a, const BigInt& b); // умножение методом Карацубы
+	static BigInt karatsuba_mul(const BigInt& a, const BigInt& b); // СѓРјРЅРѕР¶РµРЅРёРµ РјРµС‚РѕРґРѕРј РљР°СЂР°С†СѓР±С‹
 
 public:
-	BigInt(); // конструктор умолчания (число равно нулю)
-	BigInt(long x); // конструктор преобразования из обычного целого числа
-	BigInt(const std::string& value); // конструктор преобразования из строки
-	BigInt(const BigInt& bigInt); // конструктор копирования
+	BigInt(); // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СѓРјРѕР»С‡Р°РЅРёСЏ (С‡РёСЃР»Рѕ СЂР°РІРЅРѕ РЅСѓР»СЋ)
+	BigInt(long x); // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёСЏ РёР· РѕР±С‹С‡РЅРѕРіРѕ С†РµР»РѕРіРѕ С‡РёСЃР»Р°
+	BigInt(const std::string& value); // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёСЏ РёР· СЃС‚СЂРѕРєРё
+	BigInt(const BigInt& bigInt); // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ
 
-	const std::string& getValue() const; // получение содержимого строки (строка модуля числа)
+	const std::string& getValue() const; // РїРѕР»СѓС‡РµРЅРёРµ СЃРѕРґРµСЂР¶РёРјРѕРіРѕ СЃС‚СЂРѕРєРё (СЃС‚СЂРѕРєР° РјРѕРґСѓР»СЏ С‡РёСЃР»Р°)
 
-	const bool getIsNeg() const; // получение флага отрицательности числа
-	void setIsNeg(bool isNeg); // установка флага отрицательности числа
+	const bool getIsNeg() const; // РїРѕР»СѓС‡РµРЅРёРµ С„Р»Р°РіР° РѕС‚СЂРёС†Р°С‚РµР»СЊРЅРѕСЃС‚Рё С‡РёСЃР»Р°
+	void setIsNeg(bool isNeg); // СѓСЃС‚Р°РЅРѕРІРєР° С„Р»Р°РіР° РѕС‚СЂРёС†Р°С‚РµР»СЊРЅРѕСЃС‚Рё С‡РёСЃР»Р°
 
-	int sign() const; // получение знака числа
-	const bool isEven() const; // проверка на чётность
+	int sign() const; // РїРѕР»СѓС‡РµРЅРёРµ Р·РЅР°РєР° С‡РёСЃР»Р°
+	const bool isEven() const; // РїСЂРѕРІРµСЂРєР° РЅР° С‡С‘С‚РЅРѕСЃС‚СЊ
 
-	BigInt abs() const; // получение модуля числа
-	BigInt pow(long n) const; // получение числа в степени n
-	BigInt sqrt(long n = 2) const; // вычисление корня n-ой степени из числа
+	BigInt abs() const; // РїРѕР»СѓС‡РµРЅРёРµ РјРѕРґСѓР»СЏ С‡РёСЃР»Р°
+	BigInt pow(long n) const; // РїРѕР»СѓС‡РµРЅРёРµ С‡РёСЃР»Р° РІ СЃС‚РµРїРµРЅРё n
+	BigInt sqrt(long n = 2) const; // РІС‹С‡РёСЃР»РµРЅРёРµ РєРѕСЂРЅСЏ n-РѕР№ СЃС‚РµРїРµРЅРё РёР· С‡РёСЃР»Р°
 
-	// операции сравнения
+	// РѕРїРµСЂР°С†РёРё СЃСЂР°РІРЅРµРЅРёСЏ
 	const bool operator==(const BigInt& bigInt) const;
 	const bool operator!=(const BigInt& bigInt) const;
 
@@ -36,14 +36,14 @@ public:
 	const bool operator<=(const BigInt& bigInt) const;
 	const bool operator>=(const BigInt& bigInt) const;
 
-	// операция присваивания
+	// РѕРїРµСЂР°С†РёСЏ РїСЂРёСЃРІР°РёРІР°РЅРёСЏ
 	BigInt& operator=(const BigInt& bigInt);
 
-	// унарные плюс и минус
+	// СѓРЅР°СЂРЅС‹Рµ РїР»СЋСЃ Рё РјРёРЅСѓСЃ
 	BigInt operator+() const&&;
 	BigInt operator-() const&&;
 
-	// арифметические операции
+	// Р°СЂРёС„РјРµС‚РёС‡РµСЃРєРёРµ РѕРїРµСЂР°С†РёРё
 	BigInt operator+(const BigInt& bigInt) const;
 	BigInt operator-(const BigInt& bigInt) const;
 	BigInt operator*(const BigInt& bigInt) const;
@@ -52,7 +52,7 @@ public:
 	BigInt operator<<(size_t n) const;
 	BigInt operator>>(size_t n) const;
 
-	// краткая форма операций
+	// РєСЂР°С‚РєР°СЏ С„РѕСЂРјР° РѕРїРµСЂР°С†РёР№
 	BigInt& operator+=(const BigInt& bigInt);
 	BigInt& operator-=(const BigInt& bigInt);
 	BigInt& operator*=(const BigInt& bigInt);
@@ -61,15 +61,15 @@ public:
 	BigInt& operator<<=(size_t n);
 	BigInt& operator>>=(size_t n);
 
-	// префиксная форма
+	// РїСЂРµС„РёРєСЃРЅР°СЏ С„РѕСЂРјР°
 	BigInt& operator++(); // ++v
 	BigInt& operator--(); // --v
 
-	// постфиксная форма
+	// РїРѕСЃС‚С„РёРєСЃРЅР°СЏ С„РѕСЂРјР°
 	BigInt operator++(int); // v++
 	BigInt operator--(int); // v--
 
 
-	friend std::ostream& operator<<(std::ostream& stream, const BigInt& bigInt); // вывод числа в выходной поток
-	friend std::istream& operator>>(std::istream& stream, BigInt& bigInt); // ввод числа из входного потока
+	friend std::ostream& operator<<(std::ostream& stream, const BigInt& bigInt); // РІС‹РІРѕРґ С‡РёСЃР»Р° РІ РІС‹С…РѕРґРЅРѕР№ РїРѕС‚РѕРє
+	friend std::istream& operator>>(std::istream& stream, BigInt& bigInt); // РІРІРѕРґ С‡РёСЃР»Р° РёР· РІС…РѕРґРЅРѕРіРѕ РїРѕС‚РѕРєР°
 };
