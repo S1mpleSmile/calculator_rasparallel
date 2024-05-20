@@ -57,6 +57,11 @@ public:
     Ratio get() { return a; }
 };
 
+Operand factorial(Operand a)
+{
+    return Operand(factorial(a.get()));
+}
+
 int contains(string source, string find)
 {
     int pos, length = find.size();
@@ -82,7 +87,7 @@ int main()
     while (getline(cin, s))
     {
         auto start = chrono::high_resolution_clock::now();
-        pos = contains(s, "+-*:%^");
+        pos = contains(s, "+-*:%^!");
 
         if (pos != -1)
         {
@@ -107,6 +112,7 @@ int main()
             case ':': cout << "="; c << (c = a / b); cout << endl; break;
             case '%': cout << "="; c << (c = a % b); cout << endl; break;
             case '^': cout << "="; c << (c = (a ^ b)); cout << endl; break;
+            case '!': cout << "="; c << (c = factorial(a)); cout << endl; break;
             }
         }
         else
@@ -119,10 +125,10 @@ int main()
         }
         auto end = chrono::high_resolution_clock::now();
         auto duration = chrono::duration_cast<chrono::milliseconds>(end - start).count();
-        string out = "timelog.txt";
+        string out = "timelog_fact_nopar.txt";
         fstream f;
         f.open(out, ios::app);
-        f << "Calculation time: " << duration << endl;
+        f << a.get() << ", " << duration << endl;
         f.close();
     };
 
