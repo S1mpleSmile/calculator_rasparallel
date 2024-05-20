@@ -239,6 +239,12 @@ BigInt factorial(BigInt n) {
     return f;
 }
 
+BigInt factorial(Ratio n) {
+    if (n.denom == 1)
+        return factorial(n.num);
+    return BigInt(-1);
+}
+
 BigInt subfactorial(BigInt n) {
     BigInt f, s = 0;
     f = factorial(n);
