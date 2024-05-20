@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <chrono>
 #include "Ratio2.h"
+#include "omp.h"
 
 #pragma warning(disable : 4996)
 

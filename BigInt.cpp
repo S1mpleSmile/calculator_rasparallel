@@ -1,4 +1,5 @@
 #include "Bigint.h"
+#include <vector>
 
 // конструткор по умолчанию
 BigInt::BigInt() {
@@ -75,15 +76,16 @@ BigInt BigInt::abs() const {
 
 // получение числа в степени n
 BigInt BigInt::pow(long n) const {
-	if (!n)
-		return 1;
-
-	if (n & 1)
-		return pow(n - 1) * *this;
-	else {
-		BigInt tmp = pow(n / 2);
-		return tmp * tmp;
+	BigInt result = 1;
+	BigInt base = *this;
+	while (n > 0) {
+		if (n % 2 == 1) {
+			result = result * base;
+		}
+		base = base * base;
+		n /= 2;
 	}
+	return result;
 }
 
 // вычисление корня n-ой степени из числа
@@ -288,53 +290,53 @@ BigInt BigInt::operator-(const BigInt& bigInt) const {
 
 // бинарная звёздочка (умножение двух чисел)
 BigInt BigInt::operator*(const BigInt& bigInt) const {
+	// Проверка на ноль
 	if (value == "0" || bigInt.getValue() == "0")
-		return 0; // если один из множителей равен нулю, то результат равен нулю
+		return BigInt("0");
 
-	std::string value2 = bigInt.getValue(); // запоминаем значение второго числа
+	const std::string& value2 = bigInt.getValue();
+	size_t len1 = value.length();
+	size_t len2 = value2.length();
+	size_t length = len1 + len2; // Нет нужды в +1, т.к. индексы начинаются с 0
+	std::vector<int> res(length, 0); // Используем std::vector для результатов
 
-	size_t len1 = value.length(); // запоминаем длину первого числа
-	size_t len2 = value2.length(); // запоминаем длину второго числа
-	size_t length = len1 + len2 + 1; // резульат влезет в сумму длин + 1 из-за возможного переноса
-	bool isNegRes = isNeg ^ bigInt.getIsNeg(); // флаг отрицательности результата - отрицательный, если числа разных знаков
-
-	if (length < 10) { // умножаем как обычный long
-		long res = stol(value) * stol(value2);
-		return BigInt(isNegRes ? -res : res);
+	// Преобразование строк в обратном порядке
+	std::vector<int> a(len1), b(len2);
+	for (size_t i = 0; i < len1; ++i) {
+		a[i] = value[len1 - 1 - i] - '0';
 	}
-	else if (length < 2000) { // умножаем в столбик
-		int* a = new int[length];
-		int* b = new int[length]; // массивы аргументов и результата
+	for (size_t j = 0; j < len2; ++j) {
+		b[j] = value2[len2 - 1 - j] - '0';
+	}
 
-		char* res = new char[length + 1]; // строковый массив для результата
-		res[length] = '\0'; // устанавливаем символ окончания строки
-
-		// заполняем массивы инверсной записью чисел (с ведущими нулями)
-		for (size_t i = 0; i < length; i++) {
-			a[i] = (i < len1) ? (value[len1 - 1 - i] - '0') : 0;
-			b[i] = (i < len2) ? (value2[len2 - 1 - i] - '0') : 0;
-			res[i] = 0;
+	// Многопоточное умножение "в столбик"
+#pragma omp parallel for collapse(2) schedule(static)
+	for (long long i = 0; i < len1; ++i) {
+		for (long long j = 0; j < len2; ++j) {
+#pragma omp atomic
+			res[i + j] += a[i] * b[j];
 		}
-
-		// выполняем умножение "в столбик""
-		for (size_t i = 0; i < len1; i++) {
-			for (size_t j = 0; j < len2; j++) {
-				res[length - 1 - (i + j)] += a[i] * b[j];
-				res[length - 1 - (i + j + 1)] += res[length - 1 - (i + j)] / 10;
-				res[length - 1 - (i + j)] %= 10;
-			}
-		}
-
-		// переписываем результат в строку
-		for (size_t i = 0; i < length; i++)
-			res[length - 1 - i] += '0';
-
-		return BigInt(isNegRes ? std::string("-") + std::string(res) : std::string(res)); // возвращаем результат, учитывая его знак
 	}
-	else { // умножаем по методу Карацубы
-		BigInt res = karatsuba_mul(*this, bigInt);
-		return isNegRes ? -BigInt(res) : res;
+
+	// Обработка переносов синхронно
+	for (size_t i = 0; i < length - 1; ++i) {
+		res[i + 1] += res[i] / 10;
+		res[i] %= 10;
 	}
+
+	// Перевод результатов из чисел обратно в строку
+	std::string resultStr;
+	size_t startIndex = (res.back() == 0 && res.size() > 1) ? 1 : 0;
+	for (size_t i = startIndex; i < length; ++i) {
+		resultStr.push_back(static_cast<char>(res[length - 1 - i] + '0'));
+	}
+
+	// Проверка на отрицательный результат
+	if (isNeg != bigInt.getIsNeg()) {
+		resultStr = "-" + resultStr;
+	}
+
+	return BigInt(resultStr);
 }
 
 // бинарный слеш (деление двух чисел)
