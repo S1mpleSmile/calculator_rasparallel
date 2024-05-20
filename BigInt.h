@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <omp.h>
 
 class BigInt {
 	std::string value; // значение числа
