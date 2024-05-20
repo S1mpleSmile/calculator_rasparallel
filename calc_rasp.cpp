@@ -3,6 +3,9 @@
 #include <string>
 #include <sstream>
 #include <cstring>
+#include <fstream>
+#include <stdio.h>
+#include <chrono>
 #include "Ratio2.h"
 
 #pragma warning(disable : 4996)
@@ -78,6 +81,7 @@ int main()
 
     while (getline(cin, s))
     {
+        auto start = chrono::high_resolution_clock::now();
         pos = contains(s, "+-*:%^");
 
         if (pos != -1)
@@ -113,8 +117,14 @@ int main()
             //system("clear"); //for linux
 
         }
+        auto end = chrono::high_resolution_clock::now();
+        auto duration = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+        string out = "timelog.txt";
+        fstream f;
+        f.open(out, ios::app);
+        f << "Calculation time: " << duration << endl;
+        f.close();
     };
 
     return 0;
 }
-
