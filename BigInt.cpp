@@ -548,7 +548,7 @@ std::ostream& operator<<(std::ostream& stream, const BigInt& bigInt) {
 
 // ввод числа из входного потока
 std::istream& operator>>(std::istream& stream, BigInt& bigInt) {
-	std::string value="";
+	std::string value = "";
 	char c;
 	c = stream.get();
 	while (c >= '0' && c <= '9')
